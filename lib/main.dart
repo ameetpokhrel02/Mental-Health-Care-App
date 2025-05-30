@@ -135,6 +135,7 @@ class HomeScreen extends StatelessWidget {
                   onTap: () => Navigator.pushNamed(context, '/chat'),
                 ),
                 // In HomeScreen class, update the ActionCard onTap handlers
+                // to navigate to the respective screens
                 ActionCard(
                   title: 'My Appointments',
                   icon: Icons.schedule,
