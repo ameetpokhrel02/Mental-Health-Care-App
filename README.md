@@ -1,54 +1,30 @@
 # new_flutter_project
 
-A new Flutter project.
-## Getting Started
-image.png
-This project is a starting point for a Flutter application.
+A Flutter-based medical consultation application that connects patients with healthcare professionals.
 
-A few resources to get you started if this is your first Flutter project:
+## Screenshots
 
-- [Lab: Write your first Flutter app](
-This project is a starting point for a Flutter application.
+### Welcome Screen
+![Welcome Screen with Doctor's Image](image.png)
 
-A few resources to get you started if this is your first Flutter project:
+### Registration Screen
+![Registration Screen](image.png)
 
-- [Lab: Write your first Flutter app](URL_ADDRESS.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](
-- [Cookbook: Useful Flutter samples](URL_ADDRESS.flutter.dev/cookbook)
-
-For help getting started with Flutter develop
-- [Cookbook: Useful Flutter samples](URL_ADDRESS.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](URL_ADDRESShe
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-)
+### Login Screen
+![Login Screen](image.png)
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
-## Welcome Screen with Doctor's Image.
-# Screenshot
-image.png
-# Registration Screen
-image.png
-# Login Screen
-image.png
+This project is a starting point for a Flutter application. To get started:
 
+1. Clone the repository
+2. Run `flutter pub get` to install dependencies
+3. Run `flutter run` to start the application
 
+### Resources
 
-
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
+If you're new to Flutter, here are some resources to get you started:
 
 - [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
 - [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- [Online documentation](https://docs.flutter.dev/) - Tutorials, samples, guidance on mobile development, and API reference
