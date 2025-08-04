@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:new_flutter_project/screens/appointments/book_appointment.dart';
 import 'package:new_flutter_project/screens/splash/splash_screen.dart';
 import 'screens/auth/doctor_login.dart';
 import 'screens/auth/doctor_signup.dart';
@@ -8,28 +9,21 @@ import 'screens/auth/signup_screen.dart';
 import 'screens/home/home_screen.dart';
 import 'screens/onboarding/onboarding_screen.dart';
 import 'screens/appointments/appointments_screen.dart';
+import 'screens/appointments/book_appointment_screen.dart';
 import 'screens/doctor/doctor_dashboard.dart';
+import 'screens/doctors/doctor_grid_list_screen.dart';
 import 'screens/chat/chat_screen.dart';
 import 'screens/admin/admin_dashboard.dart';
-import 'screens/auth/doctor_login_screen.dart';
-import 'screens/auth/doctor_signup_screen.dart';
 import 'screens/profile/profile_screen.dart';
-import 'screens/appointments/book_appointment_screen.dart';
 import 'package:provider/provider.dart';
 import 'providers/auth_provider.dart';
 import 'providers/user_provider.dart';
-import 'screens/admin/admin_dashboard.dart' show AdminDashboard;
-import 'screens/auth/login_screen.dart';
-import 'screens/auth/signup_screen.dart';
-import 'screens/appointments/book_appointment.dart';
-import 'screens/chat/chat_screen.dart';
-
-import 'screens/doctor/doctor_dashboard.dart';
-import 'screens/onboarding/onboarding_screen.dart' show OnboardingScreen;
-import 'screens/welcome/welcome_screen.dart';
-import 'screens/home/home_screen.dart';
 import 'widgets/action_card.dart';
 import 'widgets/app_logo.dart';
+import 'screens/auth/forgot_password_screen.dart';
+import 'screens/auth/otp_verification_screen.dart';
+import 'screens/auth/change_password_screen.dart';
+import 'screens/auth/reset_password_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -86,11 +80,14 @@ class MyApp extends StatelessWidget {
         '/doctor_login': (context) => DoctorLoginScreen(),
         '/doctor_signup': (context) => DoctorSignupScreen(),
         '/profile': (context) => ProfileScreen(),
+        '/doctors': (context) => DoctorGridListScreen(),
+        '/forgot_password': (context) => ForgotPasswordScreen(),
+        '/otp_verification': (context) => OtpVerificationScreen(),
+        '/change_password': (context) => ChangePasswordScreen(),
+        '/reset_password': (context) => ResetPasswordScreen(token: ''),
       },
       onUnknownRoute: (settings) {
-        return MaterialPageRoute(
-          builder: (context) => WelcomeScreen(),
-        );
+        return MaterialPageRoute(builder: (context) => WelcomeScreen());
       },
       debugShowCheckedModeBanner: false,
     );
