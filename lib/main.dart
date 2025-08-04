@@ -23,6 +23,7 @@ import 'screens/auth/login_screen.dart';
 import 'screens/auth/signup_screen.dart';
 import 'screens/appointments/book_appointment.dart';
 import 'screens/chat/chat_screen.dart';
+
 import 'screens/doctor/doctor_dashboard.dart';
 import 'screens/onboarding/onboarding_screen.dart' show OnboardingScreen;
 import 'screens/welcome/welcome_screen.dart';
