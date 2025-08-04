@@ -45,12 +45,18 @@ class HomeScreen extends StatelessWidget {
                 ActionCard(
                   title: 'Book Appointment',
                   icon: Icons.calendar_today,
-                  onTap: () => Navigator.pushNamed(context, '/book-appointment'),
+                  onTap:
+                      () => Navigator.pushNamed(context, '/book-appointment'),
                 ),
                 ActionCard(
                   title: 'My Appointments',
                   icon: Icons.schedule,
                   onTap: () => Navigator.pushNamed(context, '/appointments'),
+                ),
+                ActionCard(
+                  title: 'Top Doctors',
+                  icon: Icons.medical_services,
+                  onTap: () => Navigator.pushNamed(context, '/doctors'),
                 ),
                 ActionCard(
                   title: 'Chat with Doctor',

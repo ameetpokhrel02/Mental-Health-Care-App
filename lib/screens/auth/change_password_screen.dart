@@ -25,40 +25,112 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Change Password')),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextField(
-              controller: _oldPasswordController,
-              obscureText: true,
-              decoration: const InputDecoration(labelText: 'Old Password'),
-            ),
-            const SizedBox(height: 16),
-            TextField(
-              controller: _newPasswordController,
-              obscureText: true,
-              decoration: const InputDecoration(labelText: 'New Password'),
-            ),
-            const SizedBox(height: 16),
-            TextField(
-              controller: _confirmPasswordController,
-              obscureText: true,
-              decoration: const InputDecoration(
-                labelText: 'Confirm New Password',
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFF6D5BBA), Color(0xFF8D58BF), Color(0xFFDE67A3)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
+        child: Center(
+          child: SingleChildScrollView(
+            child: Container(
+              width: 370,
+              padding: EdgeInsets.symmetric(horizontal: 32, vertical: 36),
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.15),
+                borderRadius: BorderRadius.circular(24),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.15),
+                    blurRadius: 30,
+                    offset: Offset(0, 8),
+                  ),
+                ],
+                border: Border.all(
+                  color: Colors.white.withOpacity(0.3),
+                  width: 1.5,
+                ),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    'Change Password',
+                    style: TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.w600,
+                      letterSpacing: 2,
+                      color: Colors.white.withOpacity(0.95),
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(height: 32),
+                  _buildPasswordField(
+                    _oldPasswordController,
+                    'Old Password',
+                    Icons.lock_outline,
+                  ),
+                  SizedBox(height: 18),
+                  _buildPasswordField(
+                    _newPasswordController,
+                    'New Password',
+                    Icons.lock,
+                  ),
+                  SizedBox(height: 18),
+                  _buildPasswordField(
+                    _confirmPasswordController,
+                    'Confirm New Password',
+                    Icons.lock,
+                  ),
+                  SizedBox(height: 24),
+                  _isLoading
+                      ? CircularProgressIndicator(color: Colors.white)
+                      : ElevatedButton(
+                        onPressed: _changePassword,
+                        child: Text(
+                          'Change Password',
+                          style: TextStyle(fontSize: 16, letterSpacing: 1.2),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Color(0xFFF76B6A),
+                          padding: EdgeInsets.symmetric(vertical: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(14),
+                          ),
+                          elevation: 0,
+                        ),
+                      ),
+                ],
               ),
             ),
-            const SizedBox(height: 24),
-            _isLoading
-                ? const CircularProgressIndicator()
-                : ElevatedButton(
-                  onPressed: _changePassword,
-                  child: const Text('Change Password'),
-                ),
-          ],
+          ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildPasswordField(
+    TextEditingController controller,
+    String label,
+    IconData icon,
+  ) {
+    return TextField(
+      controller: controller,
+      obscureText: true,
+      style: TextStyle(color: Colors.white),
+      decoration: InputDecoration(
+        labelText: label,
+        labelStyle: TextStyle(color: Colors.white70),
+        prefixIcon: Icon(icon, color: Colors.white70),
+        filled: true,
+        fillColor: Colors.white.withOpacity(0.08),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14),
+          borderSide: BorderSide.none,
+        ),
+        contentPadding: EdgeInsets.symmetric(vertical: 18, horizontal: 18),
       ),
     );
   }

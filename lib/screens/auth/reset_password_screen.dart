@@ -20,107 +20,87 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Set New Password')),
       body: Container(
         decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/doctor_bg.jpg'),
-            fit: BoxFit.cover,
-            colorFilter: ColorFilter.mode(
-              Colors.black.withOpacity(0.5),
-              BlendMode.darken,
-            ),
+          gradient: LinearGradient(
+            colors: [Color(0xFF6D5BBA), Color(0xFF8D58BF), Color(0xFFDE67A3)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
           ),
         ),
-        child: SafeArea(
+        child: Center(
           child: SingleChildScrollView(
-            padding: EdgeInsets.all(24.0),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Text(
-                    'Create New Password',
-                    style: TextStyle(
-                      fontSize: 32,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  SizedBox(height: 32),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.9),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: TextFormField(
-                      controller: _passwordController,
-                      obscureText: !_showPassword,
-                      decoration: InputDecoration(
-                        labelText: 'New Password',
-                        prefixIcon: Icon(Icons.lock),
-                        suffixIcon: IconButton(
-                          icon: Icon(
-                            _showPassword ? Icons.visibility_off : Icons.visibility,
-                          ),
-                          onPressed: () {
-                            setState(() => _showPassword = !_showPassword);
-                          },
-                        ),
-                        border: InputBorder.none,
-                        contentPadding: EdgeInsets.all(16),
-                      ),
-                      validator: (value) {
-                        if (value?.isEmpty ?? true) {
-                          return 'Please enter a password';
-                        }
-                        if (value!.length < 6) {
-                          return 'Password must be at least 6 characters';
-                        }
-                        return null;
-                      },
-                    ),
-                  ),
-                  SizedBox(height: 16),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.9),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: TextFormField(
-                      controller: _confirmPasswordController,
-                      obscureText: !_showPassword,
-                      decoration: InputDecoration(
-                        labelText: 'Confirm Password',
-                        prefixIcon: Icon(Icons.lock_outline),
-                        border: InputBorder.none,
-                        contentPadding: EdgeInsets.all(16),
-                      ),
-                      validator: (value) {
-                        if (value != _passwordController.text) {
-                          return 'Passwords do not match';
-                        }
-                        return null;
-                      },
-                    ),
-                  ),
-                  SizedBox(height: 32),
-                  ElevatedButton(
-                    onPressed: _isLoading ? null : _handleResetPassword,
-                    child: _isLoading
-                        ? CircularProgressIndicator(color: Colors.white)
-                        : Text('Reset Password'),
-                    style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.symmetric(vertical: 16),
-                      backgroundColor: Theme.of(context).primaryColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
+            child: Container(
+              width: 370,
+              padding: EdgeInsets.symmetric(horizontal: 32, vertical: 36),
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.15),
+                borderRadius: BorderRadius.circular(24),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.15),
+                    blurRadius: 30,
+                    offset: Offset(0, 8),
                   ),
                 ],
+                border: Border.all(
+                  color: Colors.white.withOpacity(0.3),
+                  width: 1.5,
+                ),
+              ),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text(
+                      'Create New Password',
+                      style: TextStyle(
+                        fontSize: 28,
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: 2,
+                        color: Colors.white.withOpacity(0.95),
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(height: 32),
+                    _buildPasswordField(
+                      _passwordController,
+                      'New Password',
+                      Icons.lock,
+                      true,
+                    ),
+                    SizedBox(height: 16),
+                    _buildPasswordField(
+                      _confirmPasswordController,
+                      'Confirm Password',
+                      Icons.lock_outline,
+                      true,
+                    ),
+                    SizedBox(height: 32),
+                    ElevatedButton(
+                      onPressed: _isLoading ? null : _handleResetPassword,
+                      child:
+                          _isLoading
+                              ? CircularProgressIndicator(color: Colors.white)
+                              : Text(
+                                'Reset Password',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  letterSpacing: 1.2,
+                                ),
+                              ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xFFF76B6A),
+                        padding: EdgeInsets.symmetric(vertical: 16),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(14),
+                        ),
+                        elevation: 0,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -129,22 +109,44 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
     );
   }
 
+  Widget _buildPasswordField(
+    TextEditingController controller,
+    String label,
+    IconData icon,
+    bool obscure,
+  ) {
+    return TextFormField(
+      controller: controller,
+      obscureText: obscure,
+      style: TextStyle(color: Colors.white),
+      decoration: InputDecoration(
+        labelText: label,
+        labelStyle: TextStyle(color: Colors.white70),
+        prefixIcon: Icon(icon, color: Colors.white70),
+        filled: true,
+        fillColor: Colors.white.withOpacity(0.08),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14),
+          borderSide: BorderSide.none,
+        ),
+        contentPadding: EdgeInsets.symmetric(vertical: 18, horizontal: 18),
+      ),
+    );
+  }
+
   Future<void> _handleResetPassword() async {
     if (_formKey.currentState!.validate()) {
       setState(() => _isLoading = true);
       try {
-        await ApiService.resetPassword(
-          widget.token,
-          _passwordController.text,
-        );
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Password reset successful')),
-        );
+        await ApiService.resetPassword(widget.token, _passwordController.text);
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Password reset successful')));
         Navigator.pushReplacementNamed(context, '/login');
       } catch (e) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(e.toString())),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(e.toString())));
       } finally {
         setState(() => _isLoading = false);
       }
