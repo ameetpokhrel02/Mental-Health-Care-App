@@ -83,7 +83,6 @@ class _DoctorGridListScreenState extends State<DoctorGridListScreen> {
     {'label': 'Lungs', 'icon': Icons.air},
   ];
 
-  // Map category label to specialization for filtering
   final Map<String, String> categoryToSpecialization = {
     'Kidney': 'Kidney Specialist',
     'Heart': 'Cardiologist',
@@ -132,7 +131,6 @@ class _DoctorGridListScreenState extends State<DoctorGridListScreen> {
         title: const Text(
           'Top Doctors to Book',
           style: TextStyle(
-            // (Removed duplicate build method)
             color: Colors.black87,
             fontWeight: FontWeight.bold,
             fontSize: 22,
@@ -390,20 +388,196 @@ class DoctorDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFFFE3E8),
       appBar: AppBar(
-        title: Text(doctor['name']),
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black87,
+        backgroundColor: Colors.transparent,
         elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios_new, color: Colors.black87),
+          onPressed: () => Navigator.pop(context),
+        ),
       ),
-      body: Center(
-        child: Text(
-          'Doctor details coming soon!',
-          style: TextStyle(fontSize: 20),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(24),
+                  child: Image.asset(
+                    doctor['image'],
+                    height: 180,
+                    width: 180,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 18),
+              Text(
+                doctor['name'],
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 26,
+                  color: Colors.black87,
+                ),
+              ),
+              Text(
+                doctor['specialization'],
+                style: const TextStyle(
+                  fontSize: 18,
+                  color: Colors.black54,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Row(
+                children: [
+                  const Icon(Icons.location_on, color: Colors.pink, size: 18),
+                  const SizedBox(width: 4),
+                  Text(
+                    'Apollo Hospital, Navi Mumbai',
+                    style: TextStyle(color: Colors.black54, fontSize: 14),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 6),
+              Row(
+                children: [
+                  const Icon(Icons.access_time, color: Colors.pink, size: 18),
+                  const SizedBox(width: 4),
+                  Text(
+                    '10 am to 7 pm',
+                    style: TextStyle(color: Colors.black54, fontSize: 14),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
+              Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 4,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.pink.shade100,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: const Text(
+                      'Available',
+                      style: TextStyle(
+                        color: Colors.pink,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 18),
+              Container(
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(18),
+                ),
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "His expertise includes primary angioplasty, complex angioplasties, intra...",
+                      style: TextStyle(color: Colors.black87, fontSize: 15),
+                    ),
+                    const SizedBox(height: 4),
+                    GestureDetector(
+                      onTap: () {},
+                      child: const Text(
+                        'Read more',
+                        style: TextStyle(
+                          color: Colors.blue,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 18),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  _InfoCard(label: 'Experience', value: '4 Years'),
+                  _InfoCard(label: 'Cases', value: '31'),
+                  _InfoCard(
+                    label: 'Specialist',
+                    value: doctor['specialization'],
+                  ),
+                ],
+              ),
+              const SizedBox(height: 28),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {},
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.black,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    textStyle: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                    ),
+                  ),
+                  child: const Text('Book an appointment'),
+                ),
+              ),
+              const SizedBox(height: 18),
+            ],
+          ),
         ),
       ),
     );
   }
 }
 
-// (Removed duplicate DoctorCardModern build method)
+class _InfoCard extends StatelessWidget {
+  final String label;
+  final String value;
+  const _InfoCard({required this.label, required this.value});
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 4),
+        padding: const EdgeInsets.symmetric(vertical: 14),
+        decoration: BoxDecoration(
+          color: Colors.pink.shade100,
+          borderRadius: BorderRadius.circular(14),
+        ),
+        child: Column(
+          children: [
+            Text(
+              value,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+                color: Colors.black87,
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              label,
+              style: const TextStyle(fontSize: 13, color: Colors.pink),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

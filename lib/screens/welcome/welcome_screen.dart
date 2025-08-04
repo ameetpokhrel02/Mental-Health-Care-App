@@ -1,160 +1,198 @@
 import 'package:flutter/material.dart';
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class WelcomeScreen extends StatefulWidget {
+  const WelcomeScreen({Key? key}) : super(key: key);
   @override
-  _WelcomeScreenState createState() => _WelcomeScreenState();
+  State<WelcomeScreen> createState() => _WelcomeScreenState();
 }
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
-  int activeIndex = 0;
-
   final List<String> images = [
     'assets/images/doctor1.jpg',
     'assets/images/doctor2.jpg',
     'assets/images/doctor3.jpg',
   ];
+  int _currentPage = 0;
+  late final PageController _pageController;
 
-  final List<String> titles = [
-    'Expert Doctors',
-    'Online Consultation',
-    'Mental Health Care',
-  ];
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController();
+    // Auto-slide
+    Future.delayed(const Duration(milliseconds: 500), _autoSlide);
+  }
 
-  final List<String> descriptions = [
-    'Connect with experienced mental health profe.ssionals',
-    'Get help from anywhere, anytime',
-    'Start your journey to better mental health',
-  ];
+  void _autoSlide() async {
+    while (mounted) {
+      await Future.delayed(const Duration(seconds: 3));
+      int nextPage = (_currentPage + 1) % images.length;
+      _pageController.animateToPage(
+        nextPage,
+        duration: const Duration(milliseconds: 400),
+        curve: Curves.easeInOut,
+      );
+    }
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
+    final double cardWidth = MediaQuery.of(context).size.width * 0.95;
+    final double cardHeight = MediaQuery.of(context).size.height * 0.42;
     return Scaffold(
-      body: Stack(
-        children: [
-          CarouselSlider.builder(
-            itemCount: images.length,
-            itemBuilder: (context, index, realIndex) {
-              return buildSlide(index);
-            },
-            options: CarouselOptions(
-              height: MediaQuery.of(context).size.height,
-              viewportFraction: 1,
-              onPageChanged: (index, reason) => 
-                setState(() => activeIndex = index),
-              autoPlay: true,
-              autoPlayInterval: Duration(seconds: 3),
-            ),
-          ),
-          Positioned(
-            bottom: 100,
-            left: 0,
-            right: 0,
+      backgroundColor: const Color(0xFFEAF1FF),
+      body: Center(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                buildIndicator(),
-                SizedBox(height: 32),
-                buildButtons(),
+                Container(
+                  width: cardWidth,
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                      colors: [Color(0xFF2563FF), Color(0xFF5CA9FF)],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                    ),
+                    borderRadius: BorderRadius.circular(18),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 0,
+                      vertical: 0,
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        SizedBox(
+                          height: cardHeight * 0.56,
+                          width: double.infinity,
+                          child: PageView.builder(
+                            controller: _pageController,
+                            itemCount: images.length,
+                            onPageChanged: (index) {
+                              setState(() => _currentPage = index);
+                            },
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 6,
+                                  vertical: 6,
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(12),
+                                  child: Image.asset(
+                                    images[index],
+                                    fit: BoxFit.cover,
+                                    width: double.infinity,
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: List.generate(
+                            images.length,
+                            (index) => AnimatedContainer(
+                              duration: const Duration(milliseconds: 300),
+                              margin: const EdgeInsets.symmetric(horizontal: 3),
+                              width: _currentPage == index ? 16 : 7,
+                              height: 7,
+                              decoration: BoxDecoration(
+                                color:
+                                    _currentPage == index
+                                        ? Colors.white
+                                        : Colors.white54,
+                                borderRadius: BorderRadius.circular(7),
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 8),
+                          child: Text(
+                            'Find Your Doctor',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                        const SizedBox(height: 2),
+                        const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 8),
+                          child: Text(
+                            'in a Minute',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 6,
+                          ),
+                          child: SizedBox(
+                            width: double.infinity,
+                            child: ElevatedButton(
+                              onPressed:
+                                  () => Navigator.pushReplacementNamed(
+                                    context,
+                                    '/login',
+                                  ),
+                              style: ElevatedButton.styleFrom(
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 12,
+                                ),
+                                backgroundColor: Colors.white,
+                                foregroundColor: const Color(0xFF2563FF),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                textStyle: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15,
+                                ),
+                                elevation: 2,
+                              ),
+                              child: const Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text('Get Started'),
+                                  SizedBox(width: 7),
+                                  Icon(Icons.arrow_forward, size: 18),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
-          Positioned(
-            top: 40,
-            right: 16,
-            child: TextButton(
-              onPressed: () => Navigator.pushReplacementNamed(context, '/login'),
-              child: Text(
-                'Skip',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget buildSlide(int index) {
-    return Container(
-      width: double.infinity,
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage(images[index]),
-          fit: BoxFit.cover,
-          colorFilter: ColorFilter.mode(
-            Colors.black.withOpacity(0.5),
-            BlendMode.darken,
-          ),
         ),
-      ),
-      child: Padding(
-        padding: EdgeInsets.all(20),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              titles[index],
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 32,
-                fontWeight: FontWeight.bold,
-              ),
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(height: 16),
-            Text(
-              descriptions[index],
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 18,
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget buildIndicator() {
-    return AnimatedSmoothIndicator(
-      activeIndex: activeIndex,
-      count: images.length,
-      effect: ExpandingDotsEffect(
-        dotWidth: 12,
-        dotHeight: 12,
-        activeDotColor: Colors.blue,
-        dotColor: Colors.white,
-      ),
-    );
-  }
-
-  Widget buildButtons() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          ElevatedButton(
-            onPressed: () => Navigator.pushReplacementNamed(context, '/login'),
-            child: Text('Login'),
-            style: ElevatedButton.styleFrom(
-              padding: EdgeInsets.symmetric(horizontal: 40, vertical: 16),
-            ),
-          ),
-          ElevatedButton(
-            onPressed: () => Navigator.pushReplacementNamed(context, '/signup'),
-            child: Text('Register'),
-            style: ElevatedButton.styleFrom(
-              padding: EdgeInsets.symmetric(horizontal: 40, vertical: 16),
-            ),
-          ),
-        ],
       ),
     );
   }
